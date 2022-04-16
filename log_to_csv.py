@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 import os
-
-
 import re
 
 def tryint(s):
@@ -45,6 +43,10 @@ def count_text_in_file(text, filename):
     occurrences = data.count(text)
     return occurrences
 
+def has_diff(unique_name_vector_with_name):
+    unique_name_vector = unique_name_vector_with_name[1:]
+    return not all(x == unique_name_vector[0] for x in unique_name_vector)
+
 log_files = find_log_files()
 unique_names = search_unique_filenames(log_files)
 
@@ -57,6 +59,7 @@ for unique_name in unique_names:
     unique_name_vector = [unique_name]
     for logfile in log_files:
         unique_name_vector.append(str(count_text_in_file(unique_name, logfile)))
-    results_csv.write(','.join(unique_name_vector)+"\n")
+    if has_diff(unique_name_vector):
+        results_csv.write(','.join(unique_name_vector)+"\n")
 
 results_csv.close()
