@@ -4,8 +4,7 @@ if [ "$#" -ne 2 ]; then
 fi
 i=0
 while true; do
-
-	lsof -p $1 | rev| cut -d' ' -f1 | rev > logs/$i.log 2> /dev/null      #`date +%y-%m-%d-%H:%M:%S:%N` 2> /dev/null
+	lsof -p $1 -Fn > logs/$i.log 2> /dev/null      #`date +%y-%m-%d-%H:%M:%S:%N` 2> /dev/null
 	sleep $2
 	echo "."
 	let "i=i+1"
